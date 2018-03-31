@@ -1,6 +1,6 @@
 ### WebExtensions GeckoDriver
 
-When testing [WebExtensions](https://developer.mozilla.org/Add-ons/WebExtensions) you might want to automatically load them into a browser and do functional testing with [geckodriver](https://github.com/mozilla/geckodriver).
+When testing [WebExtensions](https://developer.mozilla.org/Add-ons/WebExtensions) you might want to automatically load them into Firefox and do functional testing with [geckodriver](https://github.com/mozilla/geckodriver).
 
 ### Installation
 
@@ -40,8 +40,6 @@ const assert = require('assert');
 
 const webExtensionsGeckoDriver = require('webextensions-geckodriver');
 const webdriver = webExtensionsGeckoDriver.webdriver;
-const until = webdriver.until;
-const By = webdriver.By;
 
 const manifestPath = path.resolve(path.join(__dirname, './path/to/manifest.json'));
 
@@ -54,8 +52,8 @@ describe('Example', () => {
   });
 
   it('should have a Toolbar Button', async () => {
-    const button = await geckodriver.wait(until.elementLocated(
-      By.id('_examplewebextension-browser-action') // special chars in the id are replaced with _
+    const button = await geckodriver.wait(webdriver.until.elementLocated(
+      webdriver.By.id('_examplewebextension-browser-action') // special chars in the id are replaced with _
     ), 1000);
     assert.equal(await button.getAttribute('tooltiptext'), 'Visit Mozilla');
   });
@@ -92,6 +90,9 @@ Return value of [`require('selenium-webdriver')`](https://www.npmjs.com/package/
 
 Return value of [`require('selenium-webdriver/firefox')`](https://www.npmjs.com/package/selenium-webdriver)
 
+### JSDOM
+
+If you're looking for a way to test WebExtensions with JSDOM then [`webextensions-jsdom`](https://github.com/webexts/webextensions-jsdom) might be for you.
 
 ### Credits
 
