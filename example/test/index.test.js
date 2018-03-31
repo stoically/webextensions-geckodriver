@@ -2,10 +2,8 @@ const path = require('path');
 const assert = require('assert');
 
 const webExtensionsGeckoDriver = require('webextensions-geckodriver');
-const webdriver = webExtensionsGeckoDriver.webdriver;
-const firefox = webExtensionsGeckoDriver.firefox;
-const until = webdriver.until;
-const By = webdriver.By;
+const {webdriver, firefox} = webExtensionsGeckoDriver;
+const {until, By} = webdriver;
 
 const manifestPath = path.resolve(path.join(__dirname, '../src/manifest.json'));
 

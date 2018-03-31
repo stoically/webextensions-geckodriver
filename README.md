@@ -39,7 +39,7 @@ const path = require('path');
 const assert = require('assert');
 
 const webExtensionsGeckoDriver = require('webextensions-geckodriver');
-const webdriver = webExtensionsGeckoDriver.webdriver;
+const {webdriver} = webExtensionsGeckoDriver;
 
 const manifestPath = path.resolve(path.join(__dirname, './path/to/manifest.json'));
 
