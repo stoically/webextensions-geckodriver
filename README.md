@@ -15,7 +15,7 @@ const webExtensionsGeckoDriver = require('webextensions-geckodriver');
 const webExtension = await webExtensionsGeckoDriver('/absolute/path/to/manifest.json');
 ```
 
-Loads the WebExtension as Temporary Add-on into a `firefox` instance. The returned Promise resolves an `<object>` with a `geckodriver` instance as property. See [API docs](#api) for more details.
+Loads the WebExtension as Temporary Add-on into a new Firefox instance. See [API docs](#api) for more details.
 
 
 ### Example
@@ -53,7 +53,9 @@ describe('Example', () => {
 
   it('should have a Toolbar Button', async () => {
     const button = await geckodriver.wait(webdriver.until.elementLocated(
-      webdriver.By.id('_examplewebextension-browser-action') // special chars in the id are replaced with _
+      // browser_actions automatically have applications.gecko.id as prefix
+      // special chars in the id are replaced with _
+      webdriver.By.id('_examplewebextension-browser-action')
     ), 1000);
     assert.equal(await button.getAttribute('tooltiptext'), 'Visit Example.com');
   });
@@ -79,7 +81,7 @@ Full executable example is in the [example directory](example/).
 
 Returns a Promise that resolves an `<object>` with the following properties in case of success:
 
-* *geckodriver*, `<object>`, a new [geckodriver](https://github.com/mozilla/geckodriver) instance
+* *geckodriver*, `<object>`, a new [`selenium-webdriver/firefox`](https://www.npmjs.com/package/selenium-webdriver) instance with previously loaded [`geckodriver`](https://www.npmjs.com/package/geckodriver)
 
 
 #### Exported property: `webdriver`
