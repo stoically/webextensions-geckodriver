@@ -26,11 +26,10 @@ describe('Example WebExtension', () => {
 
   it('should have a Toolbar Button', async () => {
     const button = await helper.toolbarButton();
-    assert.equal(await button.getAttribute('tooltiptext'), 'Visit Mozilla');
+    assert.equal(await button.getAttribute('tooltiptext'), 'Visit Example.com');
   });
 
   it('should visit mozilla if the Toolbar Button is clicked', async () => {
-    await geckodriver.getAllWindowHandles();
     const button = await helper.toolbarButton();
     button.click();
 
@@ -46,11 +45,11 @@ describe('Example WebExtension', () => {
     await geckodriver.wait(async () => {
       const currentUrl = await geckodriver.getCurrentUrl();
 
-      return currentUrl === 'https://www.mozilla.org/en-US/';
-    }, 5000, 'Should have loaded mozilla.org');
+      return currentUrl.startsWith('https://example.com');
+    }, 5000, 'Should have loaded example.com');
   });
 
   after(function() {
-    return geckodriver.quit();
+    geckodriver.quit();
   });
 });

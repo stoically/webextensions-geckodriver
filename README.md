@@ -23,7 +23,7 @@ Loads the WebExtension as Temporary Add-on into a `firefox` instance. The return
 manifest.json includes
 ```
   "browser_action": {
-    "default_title": "Visit Mozilla"
+    "default_title": "Visit Example.com"
   },
   "applications": {
     "gecko": {
@@ -55,11 +55,11 @@ describe('Example', () => {
     const button = await geckodriver.wait(webdriver.until.elementLocated(
       webdriver.By.id('_examplewebextension-browser-action') // special chars in the id are replaced with _
     ), 1000);
-    assert.equal(await button.getAttribute('tooltiptext'), 'Visit Mozilla');
+    assert.equal(await button.getAttribute('tooltiptext'), 'Visit Example.com');
   });
 
   after(() => {
-    return geckodriver.quit();
+    geckodriver.quit();
   });
 });
 ```

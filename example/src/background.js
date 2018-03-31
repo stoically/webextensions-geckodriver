@@ -1,5 +1,5 @@
 browser.browserAction.onClicked.addListener(() => {
   browser.tabs.create({
-    url: 'https://www.mozilla.org'
+    url: 'https://example.com'
   });
 });
