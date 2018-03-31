@@ -90,6 +90,23 @@ Return value of [`require('selenium-webdriver')`](https://www.npmjs.com/package/
 
 Return value of [`require('selenium-webdriver/firefox')`](https://www.npmjs.com/package/selenium-webdriver)
 
+
+### Travis Configuration
+
+```
+language: node_js
+addons:
+  firefox: latest
+
+node_js:
+  - 'lts/*'
+
+before_install:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 3
+```
+
 ### JSDOM
 
 If you're looking for a way to test WebExtensions with JSDOM then [`webextensions-jsdom`](https://github.com/webexts/webextensions-jsdom) might be for you.
