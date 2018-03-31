@@ -8,11 +8,11 @@
 // We use it by requiring it.
 require('geckodriver');
 
-let firefox = require('selenium-webdriver/firefox');
-let webdriver = require('selenium-webdriver');
-let FxRunnerUtils = require('fx-runner/lib/utils');
-let Fs = require('mz/fs');
-let Context = firefox.Context;
+const firefox = require('selenium-webdriver/firefox');
+const webdriver = require('selenium-webdriver');
+const FxRunnerUtils = require('fx-runner/lib/utils');
+const Fs = require('mz/fs');
+const Context = firefox.Context;
 
 // Note: Geckodriver already has quite a good set of default preferences
 // for disabling various items.
@@ -40,21 +40,17 @@ function promiseActualBinary(binary) {
 }
 
 module.exports.promiseSetupDriver = (xpi, binary) => {
-  let profile = new firefox.Profile();
-
+  const options = new firefox.Options();
   Object.keys(FIREFOX_PREFERENCES).forEach(key => {
-    profile.setPreference(key, FIREFOX_PREFERENCES[key]);
+    options.setPreference(key, FIREFOX_PREFERENCES[key]);
   });
 
-  let options = new firefox.Options();
-  options.setProfile(profile);
-
-  let builder = new webdriver.Builder()
+  const builder = new webdriver.Builder()
     .forBrowser('firefox')
     .setFirefoxOptions(options);
 
   return promiseActualBinary(binary)
-    .then(binaryLocation => options.setBinary(new firefox.Binary(binaryLocation)))
+    .then(binaryLocation => options.setBinary(binaryLocation))
     .then(() => builder.build())
     .then(driver => {
       driver.setContext(Context.CHROME);
