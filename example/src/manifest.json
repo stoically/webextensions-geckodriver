@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Example WebExtension",
+  "description": "Example WebExtension Description",
+  "version": "0.0.1",
+  "browser_action": {
+    "default_title": "Visit Mozilla"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [],
+  "applications": {
+    "gecko": {
+      "id": "@examplewebextension",
+      "strict_min_version": "57.0"
+    }
+  }
+}

@@ -1,6 +1,8 @@
 const path = require('path');
 const geckodriver = require('./geckodriver');
 const webExt = require('web-ext').default;
+const webdriver = require('selenium-webdriver');
+const firefox = require('selenium-webdriver/firefox');
 
 class WebExtensionsGeckodriver {
   constructor(manifestPath, options = {}) {
@@ -20,6 +22,7 @@ class WebExtensionsGeckodriver {
   async initialize() {
     const webExtBuild = await this.buildWebExt();
     this.geckodriver = await geckodriver.promiseSetupDriver(webExtBuild.extensionPath, this.options.binary);
+    this.geckodriver.setContext(firefox.Context.CHROME);
   }
 
   buildWebExt() {
@@ -32,3 +35,6 @@ module.exports = async (manifestPath, options) => {
   await webExtensionGeckodriver.initialize();
   return webExtensionGeckodriver;
 };
+
+module.exports.webdriver = webdriver;
+module.exports.firefox = firefox;
