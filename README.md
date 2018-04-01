@@ -1,5 +1,7 @@
 ### WebExtensions GeckoDriver
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/webexts/webextensions-geckodriver.svg)](https://greenkeeper.io/)
+
 When testing [WebExtensions](https://developer.mozilla.org/Add-ons/WebExtensions) you might want to automatically load them into Firefox and do functional testing with [geckodriver](https://github.com/mozilla/geckodriver).
 
 ### Installation
