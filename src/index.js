@@ -9,6 +9,7 @@ class WebExtensionsGeckodriver {
     this.options = {
       manifestPath,
       binary: options.binary || 'firefox',
+      fxOptions: options.fxOptions,
       webExt: Object.assign({
         sourceDir: path.resolve(path.dirname(manifestPath)),
         artifactsDir: path.resolve(path.join(process.cwd(), './.web-ext-artifacts')),
@@ -21,7 +22,8 @@ class WebExtensionsGeckodriver {
 
   async initialize() {
     const webExtBuild = await this.buildWebExt();
-    this.geckodriver = await geckodriver.promiseSetupDriver(webExtBuild.extensionPath, this.options.binary);
+    this.geckodriver =
+      await geckodriver.promiseSetupDriver(webExtBuild.extensionPath, this.options);
     this.geckodriver.setContext(firefox.Context.CHROME);
   }
 

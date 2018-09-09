@@ -84,8 +84,10 @@ async function promiseInstallAddon(driver, xpi) {
     });
 }
 
-module.exports.promiseSetupDriver = (xpi, binary) => {
-  const options = new firefox.Options();
+module.exports.promiseSetupDriver = async (xpi, { binary, fxOptions: options }) => {
+  if (!options)
+    options = new firefox.Options();
+
   Object.keys(FIREFOX_PREFERENCES).forEach(key => {
     options.setPreference(key, FIREFOX_PREFERENCES[key]);
   });
