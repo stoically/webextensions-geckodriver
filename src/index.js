@@ -13,17 +13,17 @@ const FIREFOX_PREFERENCES = {
 
 class WebExtensionsGeckodriver {
   constructor(manifestPath, options = {}) {
-    this.options = {
+    this.options = Object.assign({
       manifestPath,
-      binary: options.binary || 'firefox',
-      fxOptions: options.fxOptions,
-      autoInstall: true,
+      binary: 'firefox',
+      autoInstall: true
+    }, options, {
       webExt: Object.assign({
         sourceDir: path.resolve(path.dirname(manifestPath)),
         artifactsDir: path.resolve(path.join(process.cwd(), './.web-ext-artifacts')),
         overwriteDest: true
       }, options.webExt)
-    };
+    });
 
     this.geckodriver = false;
   }
@@ -79,7 +79,7 @@ class WebExtensionsGeckodriver {
   }
 
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1534005#c2
-  // Available webExtPolicy targets:
+  // Available policy targets:
   // string debugName
   // number instanceId
   // object optionalPermissions
@@ -104,9 +104,9 @@ class WebExtensionsGeckodriver {
   // boolean active
   // boolean privateBrowsingAllowed
   // object readyPromise
-  webExtPolicy(options) {
+  policy(options) {
     if (!options.target) {
-      throw new Error('webExtPolicy needs a target');
+      throw new Error('policy needs a target');
     }
     const target = options.target;
     const targetParameters = options.targetParameters || [];
@@ -127,7 +127,7 @@ class WebExtensionsGeckodriver {
   }
 
   internalUUID() {
-    return this.webExtPolicy({target: 'mozExtensionHostname'});
+    return this.policy({target: 'mozExtensionHostname'});
   }
 }
 
