@@ -17,7 +17,7 @@ class WebExtensionsGeckodriver {
       manifestPath,
       binary: options.binary || 'firefox',
       fxOptions: options.fxOptions,
-      webExtAutoInstall: true,
+      autoInstall: true,
       webExt: Object.assign({
         sourceDir: path.resolve(path.dirname(manifestPath)),
         artifactsDir: path.resolve(path.join(process.cwd(), './.web-ext-artifacts')),
@@ -29,18 +29,18 @@ class WebExtensionsGeckodriver {
   }
 
   async initialize() {
-    await this.buildWebExt();
+    await this.build();
     await this.setupDriver();
-    if (this.options.webExtAutoInstall) {
-      await this.installWebExt();
+    if (this.options.autoInstall) {
+      await this.install();
     }
   }
 
-  async buildWebExt() {
+  async build() {
     this.webExtBuild = await webExt.cmd.build(this.options.webExt);
   }
 
-  async installWebExt(options) {
+  async install(options) {
     options = Object.assign({
       extensionPath: this.webExtBuild.extensionPath,
       temporary: true
@@ -76,6 +76,58 @@ class WebExtensionsGeckodriver {
         }
         throw ex;
       });
+  }
+
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=1534005#c2
+  // Available webExtPolicy targets:
+  // string debugName
+  // number instanceId
+  // object optionalPermissions
+  // object extension
+  // function canAccessWindow
+  // function canAccessURI
+  // function hasPermission
+  // function isPathWebAccessible
+  // function localize
+  // function getURL
+  // function registerContentScript
+  // function unregisterContentScript
+  // function injectContentScripts
+  // string id
+  // string mozExtensionHostname
+  // string baseURL
+  // string name
+  // string contentSecurityPolicy
+  // object permissions
+  // object allowedOrigins
+  // object contentScripts
+  // boolean active
+  // boolean privateBrowsingAllowed
+  // object readyPromise
+  webExtPolicy(options) {
+    if (!options.target) {
+      throw new Error('webExtPolicy needs a target');
+    }
+    const target = options.target;
+    const targetParameters = options.targetParameters || [];
+    const webExtensionId = options.webExtensionId || this.webExtensionId;
+
+    return this.geckodriver.executeScript(`
+      const targetParameters = arguments[0].length ? arguments[0] : [];
+      const Cu = Components.utils;
+      ChromeUtils.defineModuleGetter(this, "Services", "resource://gre/modules/Services.jsm");
+      const { WebExtensionPolicy } = Cu.getGlobalForObject(Services);
+      const webExtension = WebExtensionPolicy.getByID("${webExtensionId}");
+      if (typeof webExtension["${target}"] === "function") {
+        return webExtension["${target}"].apply(this, targetParameters);
+      } else {
+        return webExtension["${target}"];
+      }
+    `, targetParameters);
+  }
+
+  internalUUID() {
+    return this.webExtPolicy({target: 'mozExtensionHostname'});
   }
 }
 

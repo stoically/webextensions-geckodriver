@@ -76,7 +76,7 @@ Full executable example is in the [example directory](example/).
 * *path* `<string>`, required, absolute path to the `manifest.json` file
 * *options* `<object>`, optional
   * *binary* `<string>`, optional, lets you set the `binary` that is passed to [`fx-runner`](https://github.com/mozilla-jetpack/node-fx-runner). Possible values: `firefox`, `beta`, `aurora`, `nightly`, `firefoxdeveloperedition`. Defaults to: `firefox`.
-  * *webExtAutoInstall*, optional, if set to `false` the extension will not be installed, you can manually do so later by calling `installWebExt`
+  * *autoInstall*, `<boolean>`, optional, if set to `false` the extension will not be installed, you can manually do so later by calling `install`. Defaults to `true`.
   * *webExt* `<object>`, optional, lets you overwrite the parameters that get passed into [`web-ext.cmd.build`](https://github.com/mozilla/web-ext#using-web-ext-in-nodejs-code)
   * *fxOptions* `firefox.Options`, optional, a [`firefox.Options`](https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/firefox_exports_Options.html) that will be passed to the webdriver
 
@@ -84,9 +84,10 @@ Full executable example is in the [example directory](example/).
 Returns a Promise that resolves with an initialized `WebExtensionsGeckodriver` instance in case of success, notably with the following properties:
 
 * *geckodriver*, `<object>`, a new [`selenium-webdriver/firefox`](https://www.npmjs.com/package/selenium-webdriver) instance with previously loaded [`geckodriver`](https://www.npmjs.com/package/geckodriver)
-* *installWebExt*, `<function>`, accepts an options `<object>`:
+* *install*, `<function>`, returns a Promise that resolves when installing is finished, accepts an options `<object>`:
   * *extensionPath*, `<string>`, optional, path to something that [`installAddon`](https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/firefox_exports_Driver.html) can handle. Defaults to the `web-ext` build extensionPath.
   * *temporary*, `<boolean>`, optional, whether the WebExt should be installed temporary. Defaults to `true`.
+* *internalUUID*, `<function>`, returns a Promise that resolves to the `Internal UUID` of the installed extension
 
 
 #### Exported property: `webdriver`
