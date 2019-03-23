@@ -76,29 +76,17 @@ Full executable example is in the [example directory](example/).
 * *path* `<string>`, required, absolute path to the `manifest.json` file
 * *options* `<object>`, optional
   * *binary* `<string>`, optional, lets you set the `binary` that is passed to [`fx-runner`](https://github.com/mozilla-jetpack/node-fx-runner). Possible values: `firefox`, `beta`, `aurora`, `nightly`, `firefoxdeveloperedition`. Defaults to: `firefox`.
-  * *webExt* `<object>`, optional, lets you overwrite the parameters that get passed into [`webExt.cmd.build`](https://github.com/mozilla/web-ext#using-web-ext-in-nodejs-code)
+  * *webExtAutoInstall*, optional, if set to `false` the extension will not be installed, you can manually do so later by calling `installWebExt`
+  * *webExt* `<object>`, optional, lets you overwrite the parameters that get passed into [`web-ext.cmd.build`](https://github.com/mozilla/web-ext#using-web-ext-in-nodejs-code)
   * *fxOptions* `firefox.Options`, optional, a [`firefox.Options`](https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/firefox_exports_Options.html) that will be passed to the webdriver
 
 
-Returns a Promise that resolves an `<object>` with the following properties in case of success:
+Returns a Promise that resolves with an initialized `WebExtensionsGeckodriver` instance in case of success, notably with the following properties:
 
 * *geckodriver*, `<object>`, a new [`selenium-webdriver/firefox`](https://www.npmjs.com/package/selenium-webdriver) instance with previously loaded [`geckodriver`](https://www.npmjs.com/package/geckodriver)
-
-For headless use, define fxOptions:
-
-```js
-const webExtensionsGeckoDriver = require('webextensions-geckodriver');
-
-const {firefox} = webExtensionsGeckoDriver;
-// or equivalently:
-//   const firefox = require('selenium-webdriver/firefox')
-
-const fxOptions = new firefox.Options()
-  .headless()
-  .windowSize({height: 1080, width: 1920}) // If you rely on viewport size
-
-webExtensionsGeckoDriver(manifestPath, {fxOptions})
-```
+* *installWebExt*, `<function>`, accepts an options `<object>`:
+  * *extensionPath*, `<string>`, optional, path to something that [`installAddon`](https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/firefox_exports_Driver.html) can handle. Defaults to the `web-ext` build extensionPath.
+  * *temporary*, `<boolean>`, optional, whether the WebExt should be installed temporary. Defaults to `true`.
 
 
 #### Exported property: `webdriver`
@@ -124,6 +112,22 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 3
+```
+
+### Headless Example
+
+```js
+const webExtensionsGeckoDriver = require('webextensions-geckodriver');
+
+const {firefox} = webExtensionsGeckoDriver;
+// or equivalently:
+//   const firefox = require('selenium-webdriver/firefox')
+
+const fxOptions = new firefox.Options()
+  .headless()
+  .windowSize({height: 1080, width: 1920}) // If you rely on viewport size
+
+webExtensionsGeckoDriver(manifestPath, {fxOptions})
 ```
 
 ### JSDOM
