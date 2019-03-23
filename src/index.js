@@ -113,13 +113,11 @@ class WebExtensionsGeckodriver {
     const webExtensionId = options.webExtensionId || this.webExtensionId;
 
     return this.geckodriver.executeScript(`
-      const targetParameters = arguments[0].length ? arguments[0] : [];
-      const Cu = Components.utils;
-      ChromeUtils.defineModuleGetter(this, "Services", "resource://gre/modules/Services.jsm");
-      const { WebExtensionPolicy } = Cu.getGlobalForObject(Services);
+      const {Services} = ChromeUtils.import("resource://gre/modules/Services.jsm");
+      const {WebExtensionPolicy} = Components.utils.getGlobalForObject(Services);
       const webExtension = WebExtensionPolicy.getByID("${webExtensionId}");
       if (typeof webExtension["${target}"] === "function") {
-        return webExtension["${target}"].apply(this, targetParameters);
+        return webExtension["${target}"].apply(this, arguments[0]);
       } else {
         return webExtension["${target}"];
       }
