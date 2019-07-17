@@ -88,6 +88,7 @@ Returns a Promise that resolves with an initialized `WebExtensionsGeckodriver` i
   * *extensionPath*, `<string>`, optional, path to something that [`installAddon`](https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/firefox_exports_Driver.html) can handle. Defaults to the `web-ext` build extensionPath.
   * *temporary*, `<boolean>`, optional, whether the WebExt should be installed temporary. Defaults to `true`.
 * *internalUUID*, `<function>`, returns a Promise that resolves to the `Internal UUID` of the installed extension
+* *uninstall*, `<function>`, returns a Promise that resolves when uninstalling is finished, accepts an optional extensions id as `<string>`
 
 
 #### Exported property: `webdriver`

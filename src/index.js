@@ -40,16 +40,6 @@ class WebExtensionsGeckodriver {
     this.webExtBuild = await webExt.cmd.build(this.options.webExt);
   }
 
-  async install(options) {
-    options = Object.assign({
-      extensionPath: this.webExtBuild.extensionPath,
-      temporary: true
-    }, options);
-
-    this.geckodriver.setContext(firefox.Context.CHROME);
-    this.webExtensionId = await this.geckodriver.installAddon(options.extensionPath, options.temporary);
-  }
-
   async setupDriver () {
     let { binary, fxOptions } = this.options;
     if (!fxOptions) {
@@ -76,6 +66,24 @@ class WebExtensionsGeckodriver {
         }
         throw ex;
       });
+  }
+
+  async install(options) {
+    options = Object.assign({
+      extensionPath: this.webExtBuild.extensionPath,
+      temporary: true
+    }, options);
+
+    this.geckodriver.setContext(firefox.Context.CHROME);
+    this.webExtensionId = await this.geckodriver.installAddon(options.extensionPath, options.temporary);
+  }
+
+  uninstall(webExtensionId) {
+    if (!webExtensionId) {
+      webExtensionId = this.webExtensionId;
+    }
+
+    return this.geckodriver.uninstallAddon(webExtensionId);
   }
 
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1534005#c2
