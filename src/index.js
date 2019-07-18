@@ -145,3 +145,4 @@ module.exports = async (manifestPath, options) => {
 
 module.exports.webdriver = webdriver;
 module.exports.firefox = firefox;
+module.exports.WebExtensionsGeckodriver = WebExtensionsGeckodriver;
