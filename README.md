@@ -103,17 +103,16 @@ Return value of [`require('selenium-webdriver/firefox')`](https://www.npmjs.com/
 ### Travis Configuration
 
 ```
+dist: xenial
+services:
+  - xvfb
+
 language: node_js
 addons:
   firefox: latest
 
 node_js:
   - 'lts/*'
-
-before_install:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3
 ```
 
 ### Headless Example
