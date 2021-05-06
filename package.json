@@ -1,6 +1,6 @@
 {
   "name": "webextensions-geckodriver",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Run your WebExtension with GeckoDriver",
   "main": "src/index.js",
   "repository": {
