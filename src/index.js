@@ -1,6 +1,6 @@
 require('geckodriver');
 const path = require('path');
-const webExt = require('web-ext').default;
+const webExt = require('web-ext');
 const webdriver = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
 const FxRunnerUtils = require('fx-runner/lib/utils');
