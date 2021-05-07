@@ -1,6 +1,6 @@
 {
   "name": "webextensions-geckodriver",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Run your WebExtension with GeckoDriver",
   "main": "src/index.js",
   "repository": {
@@ -8,15 +8,15 @@
     "url": "git+https://github.com/webexts/webextensions-geckodriver.git"
   },
   "dependencies": {
-    "fx-runner": "^1.0.10",
-    "geckodriver": "^1.16.0",
+    "fx-runner": "^1.0.13",
+    "geckodriver": "^1.22.3",
     "mz": "^2.7.0",
-    "selenium-webdriver": "^4.0.0-alpha.4",
-    "web-ext": "^3.0.0"
+    "selenium-webdriver": "^4.0.0-beta.3",
+    "web-ext": "^6.1.0"
   },
   "devDependencies": {
-    "eslint": "^5.15.3",
-    "mocha": "^6.0.2"
+    "eslint": "^7.25.0",
+    "mocha": "^6.2.3"
   },
   "homepage": "https://github.com/webexts/webextensions-geckodriver",
   "author": "stoically <stoically@protonmail.com>",
